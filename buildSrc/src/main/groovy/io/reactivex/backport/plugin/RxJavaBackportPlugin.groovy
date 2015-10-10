@@ -94,7 +94,7 @@ class RxJavaBackportPlugin implements Plugin<Project> {
 
     // Add the processed classes to the output jar.
     def jarTask = project.tasks.getByName('jar') as Jar
-    // TODO add retrolambdaDir to inputs
+    jarTask.from(retrolambdaDir)
     jarTask.dependsOn(animalSnifferTask)
   }
 }
