@@ -56,6 +56,13 @@ final class BackportingMethodCallRemapper extends ClassVisitor {
           System.out.println(
               "  Mapping method java/util/LinkedList.forEach to io/reactivex/internal/java/util/Iterable.forEach");
         }
+        if ("java/util/concurrent/ScheduledThreadPoolExecutor".equals(owner) && "setRemoveOnCancelPolicy".equals(name)) {
+          opcode = Opcodes.INVOKESTATIC;
+          owner = "io/reactivex/internal/java/util/concurrent/ScheduledThreadPoolExecutor";
+          desc = "(Ljava/util/concurrent/ScheduledThreadPoolExecutor;Z)V";
+          System.out.println(
+              "  Mapping method java/util/concurrent/ScheduledThreadPoolExecutor.setRemoveOnCancelPolicy to io/reactivex/internal/java/util/concurrent/ScheduledThreadPoolExecutor.setRemoveOnCancelPolicy");
+        }
         super.visitMethodInsn(opcode, owner, name, desc, itf);
       }
     };
