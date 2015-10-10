@@ -59,10 +59,19 @@ class RxJavaBackportPlugin implements Plugin<Project> {
     def prunedDir = project.file("$project.buildDir/prunedClasses")
     def pruningTask = project.tasks.create('prune', Copy) {
       from(backportedDir) {
+        // Stream-based implementations whose factory methods were removed.
         exclude('**/NbpOnSubscribeStreamSource.class')
-        exclude('**/NbpOnSubscribeCompletableFutureSource.class')
         exclude('**/PublisherStreamSource.class')
+
+        // CompletableFuture-based implementations whose factory methods were removed.
+        exclude('**/NbpOnSubscribeCompletableFutureSource.class')
         exclude('**/PublisherCompletableFutureSource.class')
+
+        // Inner-class of BlockingObservable.fromFuture().
+        exclude('**/BlockingObservable$1.class') // TODO verify actually correct class?
+
+        // Inner-class of NbpBlockingObservable.fromFuture().
+        exclude('**/NbpBlockingObservable$1.class') // TODO verify actually correct class?
       }
       into(prunedDir)
     }
@@ -70,6 +79,7 @@ class RxJavaBackportPlugin implements Plugin<Project> {
       prunedDir.mkdirs()
     }
     pruningTask.dependsOn(backportingTask)
+
 
     // Run Retrolamba to eliminate lambdas and static/default methods on interfaces.
     def retrolambdaDir = project.file("$project.buildDir/retrolambdaClasses")
@@ -79,7 +89,6 @@ class RxJavaBackportPlugin implements Plugin<Project> {
       outputDir = retrolambdaDir
     }
     retrolambdaTask.dependsOn(pruningTask, compileTask)
-
 
 
     // Use Animal Sniffer to ensure we aren't referencing any APIs beyond Java 6.
