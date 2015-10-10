@@ -84,7 +84,10 @@ class RxJavaBackportPlugin implements Plugin<Project> {
     // Run Retrolamba to eliminate lambdas and static/default methods on interfaces.
     def retrolambdaDir = project.file("$project.buildDir/retrolambdaClasses")
     def retrolambdaTask = project.tasks.create('retrolambda', RetrolambdaTask) {
-      classpath = transitiveDependencies.plus(project.files(backportedDir)).plus(project.files(compileTask.destinationDir)).asPath
+      classpath = transitiveDependencies
+          .plus(project.files(backportedDir))
+          .plus(project.files(compileTask.destinationDir))
+          .asPath
       inputDir = prunedDir
       outputDir = retrolambdaDir
     }
