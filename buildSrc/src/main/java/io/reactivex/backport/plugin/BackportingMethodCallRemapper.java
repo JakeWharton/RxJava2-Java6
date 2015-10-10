@@ -2,6 +2,7 @@ package io.reactivex.backport.plugin;
 
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 import static org.objectweb.asm.Opcodes.ASM5;
 
@@ -34,24 +35,27 @@ final class BackportingMethodCallRemapper extends ClassVisitor {
           System.out.println(
               "  Mapping method java/lang/Integer.compare to io/reactivex/internal/java/util/Integer.compare");
         }
-        //if ("java/lang/Iterable".equals(owner) && "forEach".equals(name)) {
-        //  opcode = Opcodes.INVOKESTATIC;
-        //  owner = "io/reactivex/internal/java/lang/Iterable";
-        //  System.out.println(
-        //      "  Mapping method java/lang/Iterable.forEach to io/reactivex/internal/java/util/Iterable.forEach");
-        //}
-        //if ("java/util/List".equals(owner) && "forEach".equals(name)) {
-        //  opcode = Opcodes.INVOKESTATIC;
-        //  owner = "io/reactivex/internal/java/lang/Iterable";
-        //  System.out.println(
-        //      "  Mapping method java/util/List.forEach to io/reactivex/internal/java/util/Iterable.forEach");
-        //}
-        //if ("java/util/LinkedList".equals(owner) && "forEach".equals(name)) {
-        //  opcode = Opcodes.INVOKESTATIC;
-        //  owner = "io/reactivex/internal/java/lang/Iterable";
-        //  System.out.println(
-        //      "  Mapping method java/util/LinkedList.forEach to io/reactivex/internal/java/util/Iterable.forEach");
-        //}
+        if ("java/lang/Iterable".equals(owner) && "forEach".equals(name)) {
+          opcode = Opcodes.INVOKESTATIC;
+          owner = "io/reactivex/internal/java/lang/Iterable";
+          desc = "(Ljava/lang/Iterable;Lio/reactivex/functions/Consumer;)V";
+          System.out.println(
+              "  Mapping method java/lang/Iterable.forEach to io/reactivex/internal/java/util/Iterable.forEach");
+        }
+        if ("java/util/List".equals(owner) && "forEach".equals(name)) {
+          opcode = Opcodes.INVOKESTATIC;
+          owner = "io/reactivex/internal/java/lang/Iterable";
+          desc = "(Ljava/lang/Iterable;Lio/reactivex/functions/Consumer;)V";
+          System.out.println(
+              "  Mapping method java/util/List.forEach to io/reactivex/internal/java/util/Iterable.forEach");
+        }
+        if ("java/util/LinkedList".equals(owner) && "forEach".equals(name)) {
+          opcode = Opcodes.INVOKESTATIC;
+          owner = "io/reactivex/internal/java/lang/Iterable";
+          desc = "(Ljava/lang/Iterable;Lio/reactivex/functions/Consumer;)V";
+          System.out.println(
+              "  Mapping method java/util/LinkedList.forEach to io/reactivex/internal/java/util/Iterable.forEach");
+        }
         super.visitMethodInsn(opcode, owner, name, desc, itf);
       }
     };
