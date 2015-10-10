@@ -5,8 +5,8 @@ import org.objectweb.asm.MethodVisitor;
 
 import static org.objectweb.asm.Opcodes.ASM5;
 
-final class BackportingMethodRemapper extends ClassVisitor {
-  public BackportingMethodRemapper(ClassVisitor cv) {
+final class BackportingMethodCallRemapper extends ClassVisitor {
+  public BackportingMethodCallRemapper(ClassVisitor cv) {
     super(ASM5, cv);
   }
 

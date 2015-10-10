@@ -41,9 +41,10 @@ final class BackportingTransformer {
   private void process(Path inputFile, Path destination) throws IOException {
     // Create the hierarchy of transformations from last to first.
     ClassWriter writer = new ClassWriter(0);
-    ClassVisitor methodRemapper = new BackportingMethodRemapper(writer);
+    ClassVisitor methodRemapper = new BackportingMethodCallRemapper(writer);
     ClassVisitor typeRemapper = new BackportingTypeRemapper(methodRemapper);
-    ClassVisitor annotationStripper = new BackportingAnnotationStripper(typeRemapper);
+    ClassVisitor methodCallStripper = new BackportingMethodCallStripper(typeRemapper);
+    ClassVisitor annotationStripper = new BackportingAnnotationStripper(methodCallStripper);
     ClassVisitor methodStripper = new BackportingMethodStripper(annotationStripper);
 
     byte[] input = Files.readAllBytes(inputFile);
