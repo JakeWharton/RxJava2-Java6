@@ -61,7 +61,7 @@ class RxJavaBackportPlugin implements Plugin<Project> {
       from(backportedDir) {
         // Stream-based implementations whose factory methods were removed.
         exclude('**/NbpOnSubscribeStreamSource.class')
-        exclude('**/PublisherStreamSource.class')
+        exclude('**/PublisherStreamSource*.class')
 
         // CompletableFuture-based implementations whose factory methods were removed.
         exclude('**/NbpOnSubscribeCompletableFutureSource.class')
