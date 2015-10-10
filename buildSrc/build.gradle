@@ -1,0 +1,15 @@
+apply plugin: 'groovy'
+
+targetCompatibility = JavaVersion.VERSION_1_8
+sourceCompatibility = JavaVersion.VERSION_1_8
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile 'net.orfjackal.retrolambda:retrolambda:2.0.6'
+  compile 'org.ow2.asm:asm-debug-all:5.0.4'
+  compile 'com.google.guava:guava:18.0'
+  compile 'org.codehaus.mojo:animal-sniffer:1.14'
+}

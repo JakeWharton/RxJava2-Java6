@@ -1,0 +1,15 @@
+import io.reactivex.backport.plugin.RxJavaBackportPlugin
+
+apply plugin: 'java'
+apply plugin: RxJavaBackportPlugin
+
+targetCompatibility = JavaVersion.VERSION_1_6
+sourceCompatibility = JavaVersion.VERSION_1_6
+
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  compile 'org.reactivestreams:reactive-streams:1.0.0'
+}
