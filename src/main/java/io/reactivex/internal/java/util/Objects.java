@@ -6,6 +6,11 @@ public final class Objects {
     return value;
   }
 
+  public static <T> T requireNonNull(T value, String message) {
+    if (value == null) throw new NullPointerException(message);
+    return value;
+  }
+
   public static boolean equals(Object left, Object right) {
     return left == null ? right == null : left.equals(right);
   }
