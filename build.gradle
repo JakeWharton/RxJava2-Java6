@@ -12,4 +12,12 @@ repositories {
 
 dependencies {
   compile 'org.reactivestreams:reactive-streams:1.0.0'
+  testCompile 'junit:junit:4.12'
+}
+
+sourceSets {
+  test {
+    compileClasspath += files("$project.buildDir/retrolambdaClasses")
+    runtimeClasspath += files("$project.buildDir/retrolambdaClasses")
+  }
 }
